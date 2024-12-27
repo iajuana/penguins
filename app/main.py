@@ -1,9 +1,6 @@
+from flask import Flask, Blueprint, request, jsonify
 import pickle
-from flask import Blueprint, request, jsonify
 import pandas as pd
-
-
-
 
 # Crear el blueprint para las rutas principales
 main_bp = Blueprint('main', __name__)
@@ -41,3 +38,13 @@ def predict():
     except Exception as e:
         # Manejo de errores en caso de que ocurra un fallo
         return jsonify({"error": str(e)}), 400
+
+# Aquí se asegura que el blueprint se registre
+def create_app():
+    app = Flask(__name__)
+    app.register_blueprint(main_bp, url_prefix='/')
+    return app
+
+if __name__ == "__main__":
+    app = create_app()
+    app.run(debug=True)

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Predicción de Especies de Pingüinos</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Predicción de Especies de Pingüinos</h1>
+        <form id="predictForm">
+            <label for="culmen_length_mm">Longitud del pico (mm):</label>
+            <input type="number" id="culmen_length_mm" name="culmen_length_mm" required><br><br>
+
+            <label for="culmen_depth_mm">Profundidad del pico (mm):</label>
+            <input type="number" id="culmen_depth_mm" name="culmen_depth_mm" required><br><br>
+
+            <label for="flipper_length_mm">Longitud de la aleta (mm):</label>
+            <input type="number" id="flipper_length_mm" name="flipper_length_mm" required><br><br>
+
+            <label for="body_mass_g">Peso corporal (g):</label>
+            <input type="number" id="body_mass_g" name="body_mass_g" required><br><br>
+
+            <label for="island">Isla:</label>
+            <select id="island" name="island" required>
+                <option value="Biscoe">Biscoe</option>
+                <option value="Dream">Dream</option>
+                <option value="Torgersen">Torgersen</option>
+            </select><br><br>
+
+            <label for="sex">Sexo:</label>
+            <select id="sex" name="sex" required>
+                <option value="male">Masculino</option>
+                <option value="female">Femenino</option>
+            </select><br><br>
+
+            <button type="submit">Predecir</button>
+        </form>
+
+        <div id="result" style="margin-top: 20px;"></div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        // Función para manejar el envío del formulario
+        $('#predictForm').on('submit', function(e) {
+            e.preventDefault();
+
+            // Recoger los datos del formulario
+            let formData = {
+                culmen_length_mm: $('#culmen_length_mm').val(),
+                culmen_depth_mm: $('#culmen_depth_mm').val(),
+                flipper_length_mm: $('#flipper_length_mm').val(),
+                body_mass_g: $('#body_mass_g').val(),
+                island: $('#island').val(),
+                sex: $('#sex').val()
+            };
+
+            // Realizar la solicitud POST a la API
+            $.ajax({
+                url: '/predict',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(formData),
+                success: function(response) {
+                    let resultHtml = '<h2>Predicciones:</h2>';
+                    resultHtml += '<ul>';
+                    for (const [model, prediction] of Object.entries(response)) {
+                        resultHtml += `<li><strong>${model}:</strong> ${prediction}</li>`;
+                    }
+                    resultHtml += '</ul>';
+                    $('#result').html(resultHtml);
+                },
+                error: function(err) {
+                    $('#result').html('<p>Error en la solicitud. Intenta nuevamente.</p>');
+                }
+            });
+        });
+        $('#predictForm').on('submit', function(e) {
+    e.preventDefault();
+
+    // Recoger los datos del formulario
+    let formData = {
+        culmen_length_mm: $('#culmen_length_mm').val(),
+        culmen_depth_mm: $('#culmen_depth_mm').val(),
+        flipper_length_mm: $('#flipper_length_mm').val(),
+        body_mass_g: $('#body_mass_g').val(),
+        island: $('#island').val(),
+        sex: $('#sex').val()
+    };
+
+    // Verificar que los datos son correctos
+    console.log(formData);  // Esto imprimirá los datos enviados en la consola
+
+    // Realizar la solicitud POST a la API
+    $.ajax({
+        url: '/predict',
+        type: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify(formData),
+        success: function(response) {
+            let resultHtml = '<h2>Predicciones:</h2>';
+            resultHtml += '<ul>';
+            for (const [model, prediction] of Object.entries(response)) {
+                resultHtml += `<li><strong>${model}:</strong> ${prediction}</li>`;
+            }
+            resultHtml += '</ul>';
+            $('#result').html(resultHtml);
+        },
+        error: function(err) {
+            $('#result').html('<p>Error en la solicitud. Intenta nuevamente.</p>');
+        }
+    });
+});
+
+    </script>
+</body>
+</html>

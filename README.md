@@ -1,19 +1,26 @@
 # Proyecto de clasificación de pingüinos
 
-Este proyecto utiliza diversos modelos de clasificación para predecir la especie de pingüino a partir de datos de características como la longitud del pico, la profundidad del pico, el tamaño de las aletas, etc.
+Este proyecto utiliza modelos de aprendizaje automático para predecir la especie de un pingüino basada en características como el tamaño del pico, la longitud de la aleta, y el peso corporal. El modelo está desplegado como una API REST utilizando Flask.
 
 ## Requisitos
 
-- Flask
-- joblib
-- seaborn
-- scikit-learn
+- **Flask**: Framework de Python para la creación de la API.
+- **Poetry**: Herramienta para la gestión de dependencias y entornos virtuales.
+- **Scikit-learn**: Librería para crear y entrenar los modelos de machine learning.
+- **Waitress**: Servidor WSGI para ejecutar la aplicación en producción.
 
-## Instrucciones de instalación
 
-1. Clona el repositorio.
-2. Instala las dependencias con `pip install -r requirements.txt`.
-3. Ejecuta `python model_training.py` para entrenar y guardar los modelos.
-4. Ejecuta `python main.py` para iniciar el servidor Flask.
-5. Realiza peticiones POST a `http://127.0.0.1:5000/predict` con los datos de entrada para obtener predicciones.
+- Python 3.12 o superior
+- Poetry (para gestionar las dependencias)
 
+### Instalación
+1. Clona este repositorio:
+   ```bash
+   git clone https://github.com/iajuana/penguins.git
+
+2. Navega al directorio del proyecto:
+cd penguins
+3. Instala las dependencias utilizando Poetry:
+poetry install
+4. Ejecuta el proyecto:
+poetry run python main.py
